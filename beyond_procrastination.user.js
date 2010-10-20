@@ -12,6 +12,7 @@
 // @include       https://*.twitter.com/*
 // @include       http://facebook.com/*
 // @include       http://*.facebook.com/*
+// @run-at        document-start
 // ==/UserScript==
 
 /* settings */
@@ -35,6 +36,19 @@ else
 MIN_TO_MS = 60 * 1000;
 min_away = settings['min_away'] * MIN_TO_MS;
 max_visit = settings['max_visit'] * MIN_TO_MS;
+
+/* a little Chrome-ifying */
+if (!GM_getValue || GM_getValue.toString().indexOf("not supported") > -1)
+{
+    GM_getValue = function(key, def)
+    {
+        return localStorage[key] || def;
+    };
+    GM_setValue = function(key, value)
+    {
+        return localStorage[key]=value;
+    };
+}
 
 /* get the initial visit time */
 initial_time = GM_getValue(time_key);
