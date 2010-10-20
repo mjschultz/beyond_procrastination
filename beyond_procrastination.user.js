@@ -25,11 +25,11 @@ var version = '1.0';
 /* code */
 if (true == settings['global'])
 {
-	time_key = 'initial-time_global';
+    time_key = 'initial-time_global';
 }
 else
 {
-	time_key = 'initial-time_' + location.host;
+    time_key = 'initial-time_' + location.host;
 }
 // convert min_away and max_visit to milliseconds
 MIN_TO_MS = 60 * 1000;
@@ -42,8 +42,8 @@ current_time = new Date().getTime();
 if (!initial_time)
 {
     // create an initial time
-	initial_time = current_time;
-	GM_setValue(time_key, initial_time.toString());
+    initial_time = current_time;
+    GM_setValue(time_key, initial_time.toString());
 }
 else
 {
@@ -54,18 +54,18 @@ else
 /* check if we've been away long enough (and reset initial visit time) */
 if (current_time > (initial_time + max_visit + min_away))
 {
-	// we've been gone long enough, allow visiting and set initial time
-	GM_setValue(time_key, current_time.toString());
+    // we've been gone long enough, allow visiting and set initial time
+    GM_setValue(time_key, current_time.toString());
 }
 /* check if we've overstayed our welcome */
 else if (current_time > (initial_time + max_visit))
 {
-	// you've been here too long, go away
-	stay_away = (initial_time + max_visit + min_away) - current_time;
+    // you've been here too long, go away
+    stay_away = (initial_time + max_visit + min_away) - current_time;
     stay_away = Math.ceil(stay_away / MIN_TO_MS);
     ess = (stay_away == 1) ? "" : "s";
 
-	// display the stay away time
+    // display the stay away time
     leave_msg = "<h1>Beyond Procrastination</h1>";
     leave_msg += "<p>You currently have 'Beyond Procrastination' installed on your browser.  This means that you don't want to spend too much time browsing certain web sites.</p>";
     leave_msg += "<p>You still need to work for <strong>at least "+stay_away+" minute"+ess+"</strong> before coming back!</p>";
