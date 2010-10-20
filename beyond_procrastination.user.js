@@ -1,13 +1,15 @@
 // ==UserScript==
 // @name          Beyond Procrastination
 // @namespace     http://dev.beyond-syntax.com/
-// @description   Minimize time spent on "wasteful" sites.
+// @description   Minimize time spent on "wasteful" (include'd) sites.
 // @author        mjschultz
 // @include       http://reddit.com/*
-// @include       https://reddit.com/*
 // @include       http://*.reddit.com/*
-// @include       https://*.reddit.com/*
-// @include       http://*.wustl.edu/*
+// @include       http://news.ycombinator.com/*
+// @include       http://twitter.com/*
+// @include       http://*.twitter.com/*
+// @include       http://facebook.com/*
+// @include       http://*.facebook.com/*
 // ==/UserScript==
 
 /* settings */
