@@ -7,14 +7,19 @@
 // @include       https://reddit.com/*
 // @include       http://*.reddit.com/*
 // @include       https://*.reddit.com/*
+// @include       http://*.wustl.edu/*
 // ==/UserScript==
 
 /* settings */
-min_away = 180;
-max_visit = 20;
-global_includes = false; // true (all sites included), false (per site)
+var settings = [];
+settings['min_away'] = 180; // minutes
+settings['max_visit'] = 20; // minutes
+settings['global'] = false; // if true, apply to all sites this script runs on
 
-if (true == global_include)
+var version = '1.0';
+
+/* code */
+if (true == settings['global'])
 {
 	time_key = 'initial-time_global';
 }
@@ -22,31 +27,51 @@ else
 {
 	time_key = 'initial-time_' + location.host;
 }
+// convert min_away and max_visit to milliseconds
+MIN_TO_MS = 60 * 1000;
+min_away = settings['min_away'] * MIN_TO_MS;
+max_visit = settings['max_visit'] * MIN_TO_MS;
 
 /* get the initial visit time */
 initial_time = GM_getValue(time_key);
 current_time = new Date().getTime();
 if (!initial_time)
 {
+    // create an initial time
 	initial_time = current_time;
-	GM_setValue(time_key, initial_time);
+	GM_setValue(time_key, initial_time.toString());
+}
+else
+{
+    // make sure initial_time is number
+    initial_time = parseInt(initial_time);
 }
 
 /* check if we've been away long enough (and reset initial visit time) */
 if (current_time > (initial_time + max_visit + min_away))
 {
 	// we've been gone long enough, allow visiting and set initial time
-	GM_setValue(time_key, current_time);
+	GM_setValue(time_key, current_time.toString());
 }
 /* check if we've overstayed our welcome */
 else if (current_time > (initial_time + max_visit))
 {
 	// you've been here too long, go away
 	stay_away = (initial_time + max_visit + min_away) - current_time;
+    stay_away = Math.ceil(stay_away / MIN_TO_MS);
+    ess = (stay_away == 1) ? "" : "s";
+
 	// display the stay away time
-	alert("Come back in " + stay_away);
+    leave_msg = "<h1>Beyond Procrastination</h1>";
+    leave_msg += "<p>You currently have 'Beyond Procrastination' installed on your browser.  This means that you don't want to spend too much time browsing certain web sites.</p>";
+    leave_msg += "<p>You still need to work for <strong>at least "+stay_away+" minute"+ess+"</strong> before coming back!</p>";
+    leave_msg += "<p><em>(If you are done working and want to visit this site, you can disable this script.  Just don't forget to re-enable it tomorrow!)</em></p>";
+    leave_msg += "<p><a href=\"\">Reload</a></p>";
+    leave_style = "width:75%;";
+    leave_style += "margin:15px auto;";
+    leave_style += "padding:5px;";
+    leave_style += "border:1px solid black;";
+    leave_style += "background-color:#eee;";
+    document.body.innerHTML = "<div style=\""+leave_style+"\">"+leave_msg+"</div>";
 }
-else
-{
-	// you're still allowed to view this site ... for now.
-}
+// you're still allowed to view this site ... for now.
