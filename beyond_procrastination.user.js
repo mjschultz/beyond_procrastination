@@ -10,8 +10,6 @@
 // @include       http://*.twitter.com/*
 // @include       https://twitter.com/*
 // @include       https://*.twitter.com/*
-// @include       http://facebook.com/*
-// @include       http://*.facebook.com/*
 // @run-at        document-start
 // ==/UserScript==
 
